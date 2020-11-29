@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+        <title>Document</title>
+        <style>
+            *{margin: 0px; padding: 0px}
+			#btn1{width: 400px;height: 50px;line-height: 30px;font-size: 30px;position: absolute; left: 100px; top: 50px;}
+            #issue{ display: none;width: 400px; height: 300px; background-color: gray; border: 1px solid black; position: absolute; left: 100px; top: 100px}
+            #issue .title{width: 400px; height: 50px; background-color: gray; position: relative;}
+            #issue .title button {height: 50px; font-size: 18px}
+            #close{position: absolute; right: 0px;width: 60px;}
+            #txt1{width: 398px; height: 248px;}
+
+            #msg{width: 400px; height: 600px; border: 1px solid black; margin: 100px auto;}
+            #msg div{border-bottom: 1px dashed black; padding: 2px; position: relative;}
+            #msg div button{position: absolute; right: 0px}
+        </style>
+        <script src ="./tool.js"></script>
+        <script>
+            function $(id)
+			{
+                return document.getElementById(id);
+            }
+
+            window.onload = function(){
+                $("btn1").onclick = function()
+				{
+                    $("issue").style.display = 'block';
+                }
+
+				limitDrag($("issue"));//让输入框可以被拖拽
+				limitDrag($("btn1"));
+
+                $("close").onclick = function()
+				{
+                    $("issue").style.display = 'none';
+                }
+                $("submit").onclick = function()
+				{
+                    //获取输入框的内容
+                    if(!$("txt1").value)
+					{
+                        alert("输入内容不能为空");
+                    }
+					else
+					{
+                        //创建节点添加到页面上
+                        var newDiv = document.createElement("div");
+                        var oTxt = document.createTextNode($("txt1").value);
+                        newDiv.appendChild(oTxt);
+                        newDiv.style.backgroundColor = randomColor();
+
+                        var newBtn = document.createElement("button");
+                        newBtn.innerHTML = 'X';
+                        newDiv.appendChild(newBtn);
+						// newBtn.onclick = function()
+						// {
+						// 	$("msg").removeChild(this.parentNode);
+						// }
+                        $("msg").appendChild(newDiv);
+                        $("txt1").value = "";
+                    }
+                }
+				$("delete").onclick=function()
+				{
+					//删除最后一个节点
+					$("msg").removeChild($("msg").lastChild);
+				}
+				
+				//删除某一个节点
+				$("msg").onclick=function(ev)
+				{
+					var e = ev || window.event;
+					var target = e.target || window.event.srcElement;
+					if(target.nodeName.toLowerCase()=="button")
+					{
+						$("msg").removeChild(target.parentNode);
+					}
+				}	
+				
+				$("copy").onclick=function()
+				{
+					//拷贝最后一个节点，再添加到页面上
+					var newNode=$("msg").lastChild.cloneNode(true);
+					$("msg").appendChild(newNode);
+				}
+
+            }
+        </script>
+    </head>
+    <body>
+        <button id = 'btn1'>点击打开输入框</button>
+        <div id = 'issue'>
+            <div class = 'title'>
+                <button id = 'submit'>点击发动这一条</button>
+				<button id = 'delete'>删除上一条</button>
+				<button id = 'copy'>拷贝上一条</button>
+                <button id = 'close'>X</button>
+            </div>
+
+            <textarea name="" id="txt1" cols="30" rows="10" placeholder="如果方便,可拖拽我"></textarea>
+        </div>
+        <div id = 'msg'>
+            <!-- <div>xxx <button>X</button></div>
+            <div>xxx <button>X</button></div> -->
+        </div>
+    </body>
+</html>

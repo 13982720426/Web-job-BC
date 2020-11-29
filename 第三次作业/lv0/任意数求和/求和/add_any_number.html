@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript">
+		function add_any_number()
+		{
+			var n = window.prompt("输入相加的个数");
+			//任意位数求和
+			var sum=0;
+			for(var i = 0;i < n; i++)
+			{
+				var num = window.prompt("输入相加的第" + (i+1) + "个数");
+				
+				sum += Number(num);
+			}    				
+			document.write(sum);			
+		}
+		add_any_number();
+
+		</script>
+		
+	</head>
+	<body>
+		
+	</body>
+</html>
